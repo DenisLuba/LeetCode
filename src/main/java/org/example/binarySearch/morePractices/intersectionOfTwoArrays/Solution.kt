@@ -12,31 +12,43 @@ class Solution {
     }
 
     fun intersection(nums1: IntArray, nums2: IntArray): IntArray {
+
         var resultArray = intArrayOf()
 
         val arr1: IntArray
         val arr2: IntArray
 
         if (nums1.size < nums2.size) {
-            arr1 = nums1
-            arr2 = nums2
+            arr1 = nums1.sortedArray()
+            arr2 = nums2.sortedArray()
         } else {
-            arr1 = nums2
-            arr2 = nums1
+            arr1 = nums2.sortedArray()
+            arr2 = nums1.sortedArray()
         }
 
-        for (i in arr1) {
-            if (!resultArray.isContain(i) && arr2.isContain(i))
-                resultArray += i
+        for (value in arr1) {
+            if (!resultArray.isContaining(value) && arr2.isContaining(value))
+                resultArray += value
         }
 
         return resultArray
     }
 
-    fun IntArray.isContain(num: Int): Boolean {
-        for (i in this) {
-            if (i == num) return true
+    fun IntArray.isContaining(num: Int): Boolean {
+
+        if (this.isEmpty()) return false
+
+        var start = 0
+        var end = this.lastIndex
+        var mid: Int
+
+        while(start <= end) {
+            mid = start + (end - start) / 2
+            if (this[mid] == num) return true
+            else if (this[mid] > num) end = mid - 1
+            else start = mid + 1
         }
+
         return false
     }
 }
