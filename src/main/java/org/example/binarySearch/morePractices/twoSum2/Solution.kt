@@ -2,21 +2,30 @@ package org.example.binarySearch.morePractices.twoSum2
 
 class Solution {
     fun twoSum(numbers: IntArray, target: Int): IntArray {
-        var start: Int
-        var end: Int
-        var mid: Int
-        for(i in numbers.indices) {
-            start = i
-            end = numbers.lastIndex
-            while (start <= end) {
-                mid = start + (end - start) / 2
-
-                if ((numbers[i] + numbers[mid]) == target) return intArrayOf(i + 1, mid + 1)
-                else if ((numbers[i] + numbers[mid] > target)) end = mid - 1
-                else start = mid + 1
-            }
-            if ((numbers[i] + numbers[start]) == target) return intArrayOf(i + 1, start + 1)
+        val resultArray = IntArray(2) { 0 }
+        var start: Int = 0
+        var end: Int = numbers.lastIndex
+        while(start < end) {
+            if ((numbers[start] + numbers[end]) == target) {
+                return resultArray.also {
+                    it[0] = ++start
+                    it[1] = ++end
+                }
+            } else if ((numbers[start] + numbers[end]) > target) end--
+            else start++
         }
-        return intArrayOf()
+        return resultArray
     }
+}
+
+fun main() {
+    printArray(100, 5, 25, 75)
+    printArray(9, 2, 7, 11, 15)
+    printArray(6, 2, 3, 4)
+}
+
+private fun printArray(target: Int, vararg args: Int) {
+    val intArray: IntArray = args.toList().toIntArray()
+    val array = Solution().twoSum(intArray, target)
+    println(array.joinToString(", "))
 }
